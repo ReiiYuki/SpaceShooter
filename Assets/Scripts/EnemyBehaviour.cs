@@ -16,7 +16,7 @@ public class EnemyBehaviour : MonoBehaviour {
         health = 3;
         bulletPool = new List<GameObject>();
         speed = Random.Range(0.1f, 4.5f);
-        InvokeRepeating("SpawnBullet", 2, 2);
+     //   InvokeRepeating("SpawnBullet", 2, 2);
     }
 	
 	// Update is called once per frame
@@ -24,12 +24,7 @@ public class EnemyBehaviour : MonoBehaviour {
         Follow();
 	}
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        hit();
-    }
-
-    void hit()
+    void Hit()
     {
         health -= 1;
         if (health==0)
@@ -65,5 +60,10 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
         transform.Translate(position * Time.deltaTime * speed ,Space.World);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Hit();
     }
 }

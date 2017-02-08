@@ -35,7 +35,7 @@ public class SpaceshipController : MonoBehaviour
 
     void SpawnBullet()
     {
-        Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z);
         GameObject pickedBullet = pickupBulletFromPool();
         if (pickedBullet == null)
             bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(1));
@@ -58,9 +58,8 @@ public class SpaceshipController : MonoBehaviour
         return null;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(gameObject);
     }
-
 }   

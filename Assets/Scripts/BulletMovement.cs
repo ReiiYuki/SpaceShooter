@@ -6,10 +6,11 @@ public class BulletMovement : MonoBehaviour {
 
     public Sprite[] bulletTypes;
     private int direction;
-
+    public bool isPlayer;
 
 	// Use this for initialization
 	void Start () {
+        isPlayer = false;
         RandomChosingSpriteType();
     }
 	
@@ -42,4 +43,5 @@ public class BulletMovement : MonoBehaviour {
         direction = dir;
         return gameObject;
     }
+
 }
