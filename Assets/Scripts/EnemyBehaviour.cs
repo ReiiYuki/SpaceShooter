@@ -9,11 +9,13 @@ public class EnemyBehaviour : MonoBehaviour {
     private List<GameObject> bulletPool;
 
     private int health;
+    private float speed;
 
 	// Use this for initialization
 	void Start () {
         health = 3;
         bulletPool = new List<GameObject>();
+        speed = Random.Range(0.1f, 4.5f);
         InvokeRepeating("SpawnBullet", 2, 2);
     }
 	
@@ -62,6 +64,6 @@ public class EnemyBehaviour : MonoBehaviour {
     void Follow()
     {
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
-        transform.Translate(position * Time.deltaTime * 2f ,Space.World);
+        transform.Translate(position * Time.deltaTime * speed ,Space.World);
     }
 }
