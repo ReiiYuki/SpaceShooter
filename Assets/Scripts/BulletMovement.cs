@@ -34,4 +34,10 @@ public class BulletMovement : MonoBehaviour {
         int index = Random.Range(0, bulletTypes.Length-1);
         GetComponent<SpriteRenderer>().sprite = bulletTypes[index];
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("Hit");
+        Destroy(other.gameObject);
+    }
 }
