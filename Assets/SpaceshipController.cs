@@ -52,10 +52,8 @@ public class SpaceshipController : MonoBehaviour
     GameObject pickupBulletFromPool()
     {
         foreach (GameObject bullet in bulletPool)
-        {
             if (!bullet.activeSelf)
                 return bullet;
-        }
         return null;
     }
 
