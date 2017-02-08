@@ -58,4 +58,8 @@ public class SpaceshipController : MonoBehaviour
         return null;
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        Destroy(gameObject);
+    }
 }   
