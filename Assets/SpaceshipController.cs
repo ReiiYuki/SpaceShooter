@@ -46,14 +46,14 @@ public class SpaceshipController : MonoBehaviour
     void ActivateBullet(GameObject bullet,Vector3 position)
     {
         bullet.transform.position = position;
-        bullet.GetComponent<BulletMovement>().active = false;
+        bullet.SetActive(true);
     }
 
     GameObject pickupBulletFromPool()
     {
         foreach (GameObject bullet in bulletPool)
         {
-            if (bullet.GetComponent<BulletMovement>().active)
+            if (!bullet.activeSelf)
                 return bullet;
         }
         return null;
