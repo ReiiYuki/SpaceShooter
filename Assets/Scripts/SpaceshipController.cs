@@ -47,6 +47,7 @@ public class SpaceshipController : MonoBehaviour
     {
         bullet.transform.position = position;
         bullet.SetActive(true);
+        bullet.GetComponent<BulletMovement>().RandomChosingSpriteType();
     }
 
     GameObject pickupBulletFromPool()

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BulletMovement : MonoBehaviour {
 
+    public Sprite[] bulletTypes;
+
 	// Use this for initialization
 	void Start () {
-
+        RandomChosingSpriteType();
     }
 	
 	// Update is called once per frame
@@ -26,5 +28,10 @@ public class BulletMovement : MonoBehaviour {
         if (transform.position.y > Camera.main.transform.position.y + 2)
             gameObject.SetActive(false);
     }
-
+    
+    public void RandomChosingSpriteType()
+    {
+        int index = Random.Range(0, bulletTypes.Length-1);
+        GetComponent<SpriteRenderer>().sprite = bulletTypes[index];
+    }
 }
