@@ -27,8 +27,8 @@ public class EnemyBehaviour : MonoBehaviour {
     void Hit()
     {
         health -= 1;
-        if (health==0)
-            Destroy(gameObject);
+        if (health == 0)
+            gameObject.SetActive(false);
     }
 
     void SpawnBullet()

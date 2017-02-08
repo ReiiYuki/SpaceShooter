@@ -60,6 +60,6 @@ public class SpaceshipController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }   
