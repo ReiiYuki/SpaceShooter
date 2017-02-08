@@ -16,7 +16,7 @@ public class EnemyBehaviour : MonoBehaviour {
 	void Start () {
         health = 3;
         bulletPool = new List<GameObject>();
-        speed = Random.Range(0.1f, 4.5f);
+        speed = Random.Range(0.1f, 4f);
         InvokeRepeating("SpawnBullet", 2, 2);
         RandomChosingSpriteType();
     }
@@ -24,7 +24,7 @@ public class EnemyBehaviour : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Follow();
-	}
+    }
 
     void Hit()
     {
@@ -37,7 +37,7 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if (!gameObject.activeSelf)
             return;
-        Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         GameObject pickedBullet = pickupBulletFromPool();
         if (pickedBullet == null)
             bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(-1));
@@ -62,6 +62,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Follow()
     {
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+            return;
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
         transform.Translate(position * Time.deltaTime * speed ,Space.World);
         transform.Rotate(0, 0, 100 * Time.deltaTime);
@@ -77,4 +79,5 @@ public class EnemyBehaviour : MonoBehaviour {
         int index = Random.Range(0, spriteTypes.Length - 1);
         GetComponent<SpriteRenderer>().sprite = spriteTypes[index];
     }
+
 }
