@@ -35,9 +35,4 @@ public class BulletMovement : MonoBehaviour {
         GetComponent<SpriteRenderer>().sprite = bulletTypes[index];
     }
 
-    void OnTriggerEnter2D(Collider2D other)
-    {
-        Debug.Log("Hit");
-        Destroy(other.gameObject);
-    }
 }

@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour {
 
+    private int health;
+
 	// Use this for initialization
 	void Start () {
-		
+        health = 3;
 	}
 	
 	// Update is called once per frame
@@ -14,5 +16,15 @@ public class EnemyBehaviour : MonoBehaviour {
 		
 	}
 
-    
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        hit();
+    }
+
+    void hit()
+    {
+        health -= 1;
+        if (health==0)
+            Destroy(gameObject);
+    }
 }
