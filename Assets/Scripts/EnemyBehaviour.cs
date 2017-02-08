@@ -4,16 +4,22 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour {
 
+    public GameObject bulletPrototype;
+
+    private List<GameObject> bulletPool;
+
     private int health;
 
 	// Use this for initialization
 	void Start () {
         health = 3;
-	}
+        bulletPool = new List<GameObject>();
+        InvokeRepeating("SpawnBullet", 0, 2);
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
+        
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -27,4 +33,31 @@ public class EnemyBehaviour : MonoBehaviour {
         if (health==0)
             Destroy(gameObject);
     }
+
+    void SpawnBullet()
+    {
+        Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
+        GameObject pickedBullet = pickupBulletFromPool();
+        if (pickedBullet == null)
+            bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(-1));
+        else
+            ActivateBullet(pickedBullet, position);
+    }
+
+    void ActivateBullet(GameObject bullet, Vector3 position)
+    {
+        bullet.transform.position = position;
+        bullet.SetActive(true);
+        bullet.GetComponent<BulletMovement>().RandomChosingSpriteType();
+    }
+
+    GameObject pickupBulletFromPool()
+    {
+        foreach (GameObject bullet in bulletPool)
+            if (!bullet.activeSelf)
+                return bullet;
+        return null;
+    }
+
+
 }
