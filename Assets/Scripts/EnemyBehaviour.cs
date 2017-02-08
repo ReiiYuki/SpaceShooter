@@ -14,12 +14,12 @@ public class EnemyBehaviour : MonoBehaviour {
 	void Start () {
         health = 3;
         bulletPool = new List<GameObject>();
-        InvokeRepeating("SpawnBullet", 0, 2);
+        InvokeRepeating("SpawnBullet", 2, 2);
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
+        Follow();
 	}
 
     void OnTriggerEnter2D(Collider2D other)
@@ -59,5 +59,9 @@ public class EnemyBehaviour : MonoBehaviour {
         return null;
     }
 
-
+    void Follow()
+    {
+        Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
+        transform.Translate(position * Time.deltaTime * 2f ,Space.World);
+    }
 }
