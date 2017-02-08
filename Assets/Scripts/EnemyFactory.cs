@@ -30,6 +30,7 @@ public class EnemyFactory : MonoBehaviour {
                 level++;
                 Vector3 position = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-1.5f, 1.5f), 0);
                 enemy.SetActive(true);
+                enemy.transform.position = position;
                 enemy.GetComponent<EnemyBehaviour>().SetLevel(level);
                 AddEnemy();
                 return;
