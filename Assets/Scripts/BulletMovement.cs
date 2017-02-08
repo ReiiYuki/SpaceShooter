@@ -5,9 +5,12 @@ using UnityEngine;
 public class BulletMovement : MonoBehaviour {
 
     public Sprite[] bulletTypes;
+    private int direction;
+    public bool isPlayer;
 
 	// Use this for initialization
 	void Start () {
+        isPlayer = false;
         RandomChosingSpriteType();
     }
 	
@@ -20,12 +23,12 @@ public class BulletMovement : MonoBehaviour {
     void Move()
     {
         if (gameObject.activeSelf)
-            transform.Translate(Vector3.up * Time.deltaTime * 5f);
+            transform.Translate(Vector3.up * Time.deltaTime * 5f * direction);
     }
 
     void BackToPool()
     {
-        if (transform.position.y > Camera.main.transform.position.y + 2)
+        if ((direction==1&&transform.position.y > Camera.main.transform.position.y + 2)||(direction == -1 && transform.position.y < Camera.main.transform.position.y - 2))
             gameObject.SetActive(false);
     }
     
@@ -34,4 +37,11 @@ public class BulletMovement : MonoBehaviour {
         int index = Random.Range(0, bulletTypes.Length-1);
         GetComponent<SpriteRenderer>().sprite = bulletTypes[index];
     }
+
+    public GameObject SetDirection(int dir)
+    {
+        direction = dir;
+        return gameObject;
+    }
+
 }
