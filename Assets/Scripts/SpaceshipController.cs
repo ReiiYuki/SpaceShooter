@@ -38,7 +38,7 @@ public class SpaceshipController : MonoBehaviour
         Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
         GameObject pickedBullet = pickupBulletFromPool();
         if (pickedBullet == null)
-            bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity));
+            bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(1));
         else
             ActivateBullet(pickedBullet, position);
     }

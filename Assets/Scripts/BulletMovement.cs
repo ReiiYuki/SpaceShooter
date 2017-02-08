@@ -5,6 +5,8 @@ using UnityEngine;
 public class BulletMovement : MonoBehaviour {
 
     public Sprite[] bulletTypes;
+    private int direction;
+
 
 	// Use this for initialization
 	void Start () {
@@ -20,7 +22,7 @@ public class BulletMovement : MonoBehaviour {
     void Move()
     {
         if (gameObject.activeSelf)
-            transform.Translate(Vector3.up * Time.deltaTime * 5f);
+            transform.Translate(Vector3.up * Time.deltaTime * 5f * direction);
     }
 
     void BackToPool()
@@ -35,4 +37,9 @@ public class BulletMovement : MonoBehaviour {
         GetComponent<SpriteRenderer>().sprite = bulletTypes[index];
     }
 
+    public GameObject SetDirection(int dir)
+    {
+        direction = dir;
+        return gameObject;
+    }
 }
