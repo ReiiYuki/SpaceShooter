@@ -27,7 +27,7 @@ public class BulletMovement : MonoBehaviour {
 
     void BackToPool()
     {
-        if (transform.position.y > Camera.main.transform.position.y + 2)
+        if ((direction==1&&transform.position.y > Camera.main.transform.position.y + 2)||(direction == -1 && transform.position.y < Camera.main.transform.position.y - 2))
             gameObject.SetActive(false);
     }
     
