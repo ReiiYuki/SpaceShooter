@@ -35,6 +35,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void SpawnBullet()
     {
+        if (!gameObject.activeSelf)
+            return;
         Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
         GameObject pickedBullet = pickupBulletFromPool();
         if (pickedBullet == null)
