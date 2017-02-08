@@ -8,13 +8,10 @@ public class SpaceshipController : MonoBehaviour
 
     private List<GameObject> bulletPool;
 
-    private int health;
-
     // Use this for initialization
     void Start()
     {
         bulletPool = new List<GameObject>();
-        health = 3;
     }
 
     // Update is called once per frame
@@ -63,13 +60,7 @@ public class SpaceshipController : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        hit();
+        Destroy(gameObject);
     }
 
-    void hit()
-    {
-        health -= 1;
-        if (health == 0)
-            Destroy(gameObject);
-    }
 }   
