@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpaceshipController : MonoBehaviour
 {
-    public GameObject bullet;
+    public GameObject bulletPrototype;
 
     private List<GameObject> bulletPool;
 
@@ -30,11 +30,29 @@ public class SpaceshipController : MonoBehaviour
     void Fire()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            Instantiate(bullet, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
+            SpawnBullet();       
     }
 
     void SpawnBullet()
     {
-
+        Vector3 position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+        if (pickupBulletFromPool() == null)
+            bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity));
+        else
+        {
+            pickupBulletFromPool().transform.position = position;
+            pickupBulletFromPool().GetComponent<BulletMovement>().active = false;
+        }
     }
-}
+
+    GameObject pickupBulletFromPool()
+    {
+        foreach (GameObject bullet in bulletPool)
+        {
+            if (bullet.GetComponent<BulletMovement>().active)
+                return bullet;
+        }
+        return null;
+    }
+
+}   
