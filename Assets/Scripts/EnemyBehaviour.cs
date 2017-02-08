@@ -11,14 +11,11 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private int health;
     private float speed;
+    private int level;
 
 	// Use this for initialization
 	void Start () {
-        health = 3;
         bulletPool = new List<GameObject>();
-        speed = Random.Range(0.1f, 4f);
-        InvokeRepeating("SpawnBullet", 2, 2);
-        RandomChosingSpriteType();
     }
 	
 	// Update is called once per frame
@@ -80,4 +77,12 @@ public class EnemyBehaviour : MonoBehaviour {
         GetComponent<SpriteRenderer>().sprite = spriteTypes[index];
     }
 
+    public GameObject SetLevel(int level)
+    {
+        health = level;
+        speed = Random.Range(0.1f, level % 4f + 0.1f);
+        InvokeRepeating("SpawnBullet", 2, 2);
+        RandomChosingSpriteType();
+        return gameObject;
+    }
 }
