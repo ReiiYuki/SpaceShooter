@@ -6,10 +6,12 @@ public class SpaceshipController : MonoBehaviour
 {
     public GameObject bullet;
 
+    private List<GameObject> bulletPool;
+
     // Use this for initialization
     void Start()
     {
-
+        bulletPool = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -29,5 +31,10 @@ public class SpaceshipController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
             Instantiate(bullet, new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z), Quaternion.identity);
+    }
+
+    void SpawnBullet()
+    {
+
     }
 }
