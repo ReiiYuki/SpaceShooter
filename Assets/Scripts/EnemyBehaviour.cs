@@ -62,6 +62,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Follow()
     {
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+            return;
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
         transform.Translate(position * Time.deltaTime * speed ,Space.World);
         transform.Rotate(0, 0, 100 * Time.deltaTime);
