@@ -11,20 +11,17 @@ public class EnemyBehaviour : MonoBehaviour {
 
     private int health;
     private float speed;
+    private int level;
 
 	// Use this for initialization
 	void Start () {
-        health = 3;
         bulletPool = new List<GameObject>();
-        speed = Random.Range(0.1f, 4.5f);
-        InvokeRepeating("SpawnBullet", 2, 2);
-        RandomChosingSpriteType();
     }
 	
 	// Update is called once per frame
 	void Update () {
         Follow();
-	}
+    }
 
     void Hit()
     {
@@ -37,7 +34,7 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         if (!gameObject.activeSelf)
             return;
-        Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         GameObject pickedBullet = pickupBulletFromPool();
         if (pickedBullet == null)
             bulletPool.Add(Instantiate(bulletPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(-1));
@@ -62,6 +59,8 @@ public class EnemyBehaviour : MonoBehaviour {
 
     void Follow()
     {
+        if (GameObject.FindGameObjectWithTag("Player") == null)
+            return;
         Vector3 position = GameObject.FindGameObjectWithTag("Player").transform.position-transform.position;
         transform.Translate(position * Time.deltaTime * speed ,Space.World);
         transform.Rotate(0, 0, 100 * Time.deltaTime);
@@ -76,5 +75,14 @@ public class EnemyBehaviour : MonoBehaviour {
     {
         int index = Random.Range(0, spriteTypes.Length - 1);
         GetComponent<SpriteRenderer>().sprite = spriteTypes[index];
+    }
+
+    public GameObject SetLevel(int level)
+    {
+        health = level;
+        speed = Random.Range(0.1f, level % 4f + 0.1f);
+        InvokeRepeating("SpawnBullet", 2, 2);
+        RandomChosingSpriteType();
+        return gameObject;
     }
 }
