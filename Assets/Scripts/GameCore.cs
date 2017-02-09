@@ -19,7 +19,8 @@ public class GameCore : MonoBehaviour {
             time += Time.deltaTime;
         if (IsEnd())
             DeactiveEnvironment();
-
+        if (isWin())
+            Debug.Log("Win");
 	}
 
     bool IsOver()
@@ -32,6 +33,11 @@ public class GameCore : MonoBehaviour {
         return IsOver() || time >= 15;
     }
 
+    bool isWin()
+    {
+        return IsEnd() && !IsOver();
+    }
+
     void DeactiveEnvironment()
     {
         if (GameObject.FindGameObjectWithTag("Factory")!=null)
@@ -41,5 +47,7 @@ public class GameCore : MonoBehaviour {
                 enemy.SetActive(false);
         if (GameObject.FindGameObjectWithTag("Player") != null)
             GameObject.FindGameObjectWithTag("Player").SetActive(false);
+        if (isStart)
+            isStart = false;
     }
 }
