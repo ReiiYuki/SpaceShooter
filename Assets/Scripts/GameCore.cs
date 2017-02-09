@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameCore : MonoBehaviour {
 
     bool isStart;
     float time;
+    int finalScore;
+    private GameObject endLabel;
 
 	// Use this for initialization
 	void Start () {
         isStart = true;
         time = 0;
-	}
+        endLabel = GameObject.FindGameObjectWithTag("EndLabel");
+        endLabel.SetActive(false);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,9 +25,15 @@ public class GameCore : MonoBehaviour {
         if (IsEnd())
             DeactiveEnvironment();
         if (isWin())
-            Debug.Log("Win");
+        {
+            endLabel.SetActive(true);
+            endLabel.GetComponent<Text>().text = "YOU WIN\n" + finalScore + "\nPress R to play again.";
+        }
         if (IsOver())
-            Debug.Log("Lose");
+        {
+            endLabel.SetActive(true);
+            endLabel.GetComponent<Text>().text = "YOU LOSE\n" + finalScore + "\nPress R to play again.";
+        }
         if (!IsEnd())
             Warp();
 	}
@@ -44,7 +55,8 @@ public class GameCore : MonoBehaviour {
 
     void DeactiveEnvironment()
     {
-        if (GameObject.FindGameObjectWithTag("Factory")!=null)
+        if (GameObject.FindGameObjectWithTag("Factory") != null)
+            finalScore = GameObject.FindGameObjectWithTag("Factory").GetComponent<EnemyFactory>().GetLevel();
             GameObject.FindGameObjectWithTag("Factory").SetActive(false);
         if (GameObject.FindGameObjectsWithTag("Enemy").Length>0)
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
@@ -80,4 +92,5 @@ public class GameCore : MonoBehaviour {
         if (player.transform.position.y < -2)
             player.transform.position = new Vector3(player.transform.position.x, 2f);
     }
+
 }

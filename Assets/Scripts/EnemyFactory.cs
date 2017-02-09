@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyFactory : MonoBehaviour {
 
@@ -23,11 +24,12 @@ public class EnemyFactory : MonoBehaviour {
 	}
 
     void RespawnEnemy()
-    {
+    {   
         foreach (GameObject enemy in enemyPool)
             if (!enemy.activeSelf)
             {
                 level++;
+                GameObject.FindGameObjectWithTag("ScoreText").GetComponent<Text>().text = "Score : "+level;
                 Vector3 position = new Vector3(Random.Range(-2.5f, 2.5f), Random.Range(-1.5f, 1.5f), 0);
                 enemy.SetActive(true);
                 enemy.transform.position = position;
@@ -40,5 +42,10 @@ public class EnemyFactory : MonoBehaviour {
     {
         Vector3 position = new Vector3(Random.Range(-2.5f,2.5f),Random.Range(-1.5f,1.5f),0);
         enemyPool.Add(Instantiate(enemyPrototype, position, Quaternion.identity).GetComponent<EnemyBehaviour>().SetLevel(level));
+    }
+
+    public int GetLevel()
+    {
+        return level;
     }
 }
