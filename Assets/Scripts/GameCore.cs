@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameCore : MonoBehaviour {
 
@@ -21,7 +22,10 @@ public class GameCore : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (isStart)
+        {
             time += Time.deltaTime;
+            GameObject.FindGameObjectWithTag("TimeText").GetComponent<Text>().text = (int) (60-time)+"";
+        }
         if (IsEnd())
             DeactiveEnvironment();
         if (isWin())
@@ -36,7 +40,9 @@ public class GameCore : MonoBehaviour {
         }
         if (!IsEnd())
             Warp();
-	}
+        RestartGame();
+
+    }
 
     bool IsOver()
     {
@@ -56,8 +62,10 @@ public class GameCore : MonoBehaviour {
     void DeactiveEnvironment()
     {
         if (GameObject.FindGameObjectWithTag("Factory") != null)
+        {
             finalScore = GameObject.FindGameObjectWithTag("Factory").GetComponent<EnemyFactory>().GetLevel();
             GameObject.FindGameObjectWithTag("Factory").SetActive(false);
+        }
         if (GameObject.FindGameObjectsWithTag("Enemy").Length>0)
             foreach (GameObject enemy in GameObject.FindGameObjectsWithTag("Enemy"))
                 enemy.SetActive(false);
@@ -93,4 +101,9 @@ public class GameCore : MonoBehaviour {
             player.transform.position = new Vector3(player.transform.position.x, 2f);
     }
 
+    void RestartGame()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+            SceneManager.LoadScene(0);
+    }
 }
