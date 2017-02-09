@@ -29,7 +29,7 @@ public class GameCore : MonoBehaviour {
 
     bool IsEnd()
     {
-        return IsOver() || time == 60;
+        return IsOver() || time >= 15;
     }
 
     void DeactiveEnvironment()
