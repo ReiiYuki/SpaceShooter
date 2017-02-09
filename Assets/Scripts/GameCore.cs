@@ -21,6 +21,8 @@ public class GameCore : MonoBehaviour {
             DeactiveEnvironment();
         if (isWin())
             Debug.Log("Win");
+        if (IsOver())
+            Debug.Log("Lose");
 	}
 
     bool IsOver()
