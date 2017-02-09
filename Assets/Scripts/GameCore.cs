@@ -23,6 +23,8 @@ public class GameCore : MonoBehaviour {
             Debug.Log("Win");
         if (IsOver())
             Debug.Log("Lose");
+        if (!IsEnd())
+            Warp();
 	}
 
     bool IsOver()
@@ -51,5 +53,31 @@ public class GameCore : MonoBehaviour {
             GameObject.FindGameObjectWithTag("Player").SetActive(false);
         if (isStart)
             isStart = false;
+    }
+
+    void Warp()
+    {
+        if (IsEnd())
+            return;
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Enemy")){
+            if (obj.transform.position.x > 3.5)
+                obj.transform.position = new Vector3(-3.5f,obj.transform.position.y);
+            if (obj.transform.position.x < -3.5)
+                obj.transform.position = new Vector3(3.5f, obj.transform.position.y);
+            if (obj.transform.position.y > 2)
+                obj.transform.position = new Vector3(obj.transform.position.x, -2f);
+            if (obj.transform.position.y < -2)
+                obj.transform.position = new Vector3(obj.transform.position.x, 2f);
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        if (player.transform.position.x > 3.5)
+            player.transform.position = new Vector3(-3.5f, player.transform.position.y);
+        if (player.transform.position.x < -3.5)
+            player.transform.position = new Vector3(3.5f, player.transform.position.y);
+        if (player.transform.position.y > 2)
+            player.transform.position = new Vector3(player.transform.position.x, -2f);
+        if (player.transform.position.y < -2)
+            player.transform.position = new Vector3(player.transform.position.x, 2f);
     }
 }
