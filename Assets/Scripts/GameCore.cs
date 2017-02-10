@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
@@ -14,13 +15,14 @@ public class GameCore : MonoBehaviour {
     float time;
     int finalScore;
     private GameObject endLabel;
-
+    private String firebaseResult;
 	// Use this for initialization
 	void Start () {
         isStart = true;
         time = 0;
         endLabel = GameObject.FindGameObjectWithTag("EndLabel");
         endLabel.SetActive(false);
+        firebaseResult = "";
     }
 	
 	// Update is called once per frame
@@ -35,12 +37,12 @@ public class GameCore : MonoBehaviour {
         if (isWin())
         {
             endLabel.SetActive(true);
-            endLabel.GetComponent<Text>().text = "YOU WIN\n" + finalScore + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
+            endLabel.GetComponent<Text>().text = "YOU WIN\nScore : " + finalScore + firebaseResult + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
         }
         if (IsOver())
         {
             endLabel.SetActive(true);
-            endLabel.GetComponent<Text>().text = "YOU LOSE\n" + finalScore + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
+            endLabel.GetComponent<Text>().text = "YOU LOSE\nScore : " + finalScore + firebaseResult + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
         }
         if (!IsEnd())
             Warp();
@@ -119,6 +121,30 @@ public class GameCore : MonoBehaviour {
         Score currentScore = new Score(finalScore);
         string json = JsonUtility.ToJson(currentScore);
         reference.Child("score").Child(DateTime.Now.Ticks + "").SetRawJsonValueAsync(json);
+        FirebaseDatabase.DefaultInstance
+          .GetReference("score").OrderByChild("score").LimitToLast(10)
+          .GetValueAsync().ContinueWith(task => {
+              if (task.IsFaulted)
+              {
+                  firebaseResult = "";
+              }
+              else if (task.IsCompleted)
+              {
+                  DataSnapshot snapshot = task.Result;
+                  int heightScore = 0;
+                  long yourRank = 0;
+                  long count = snapshot.ChildrenCount;
+                  foreach (DataSnapshot snap in snapshot.Children)
+                  {
+                      heightScore = Int32.Parse(snap.Child("score").Value.ToString());
+                      if (finalScore == heightScore)
+                          yourRank = count;
+                      count--;
+                  }
+                  string rank = yourRank == 0 ? "Out of Rank" : (yourRank + "");
+                  firebaseResult = "\nRank : " + rank + "\nHeighest Score in Server : " + heightScore;
+              }
+          });
     }
 
     class Score
@@ -127,6 +153,15 @@ public class GameCore : MonoBehaviour {
         public Score(int inScore)
         {
             score = inScore;
+        }
+    }
+
+    class ScoreList
+    {
+        public List<Score> list;
+        public ScoreList(List<Score> inList)
+        {
+            list = inList;
         }
     }
 }
