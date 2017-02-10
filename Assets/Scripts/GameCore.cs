@@ -1,8 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Firebase;
+using Firebase.Database;
+using Firebase.Unity.Editor;
 
 public class GameCore : MonoBehaviour {
 
@@ -51,7 +55,7 @@ public class GameCore : MonoBehaviour {
 
     bool IsEnd()
     {
-        return IsOver() || time >= 15;
+        return IsOver() || time >= 60;
     }
 
     bool isWin()
@@ -64,6 +68,7 @@ public class GameCore : MonoBehaviour {
         if (GameObject.FindGameObjectWithTag("Factory") != null)
         {
             finalScore = GameObject.FindGameObjectWithTag("Factory").GetComponent<EnemyFactory>().GetLevel();
+            UpdateScore();
             GameObject.FindGameObjectWithTag("Factory").SetActive(false);
         }
         if (GameObject.FindGameObjectsWithTag("Enemy").Length>0)
@@ -105,5 +110,23 @@ public class GameCore : MonoBehaviour {
     {
         if (Input.GetKeyDown(KeyCode.R))
             SceneManager.LoadScene(0);
+    }
+
+    void UpdateScore()
+    {
+        FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://spaceshooter-6d899.firebaseio.com/");
+        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+        Score currentScore = new Score(finalScore);
+        string json = JsonUtility.ToJson(currentScore);
+        reference.Child("score").Child(DateTime.Now.Ticks + "").SetRawJsonValueAsync(json);
+    }
+
+    class Score
+    {
+        public int score;
+        public Score(int inScore)
+        {
+            score = inScore;
+        }
     }
 }
