@@ -122,7 +122,7 @@ public class GameCore : MonoBehaviour {
         string json = JsonUtility.ToJson(currentScore);
         reference.Child("score").Child(DateTime.Now.Ticks + "").SetRawJsonValueAsync(json);
         FirebaseDatabase.DefaultInstance
-          .GetReference("score").OrderByChild("score").LimitToLast(10)
+          .GetReference("score").OrderByChild("score").LimitToLast(20)
           .GetValueAsync().ContinueWith(task => {
               if (task.IsFaulted)
               {
