@@ -31,12 +31,12 @@ public class GameCore : MonoBehaviour {
         if (isWin())
         {
             endLabel.SetActive(true);
-            endLabel.GetComponent<Text>().text = "YOU WIN\n" + finalScore + "\nPress R to play again.";
+            endLabel.GetComponent<Text>().text = "YOU WIN\n" + finalScore + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
         }
         if (IsOver())
         {
             endLabel.SetActive(true);
-            endLabel.GetComponent<Text>().text = "YOU LOSE\n" + finalScore + "\nPress R to play again.";
+            endLabel.GetComponent<Text>().text = "YOU LOSE\n" + finalScore + "\nPress R to play again.\n\nDeveloped By ReiiYuki";
         }
         if (!IsEnd())
             Warp();
