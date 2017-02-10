@@ -10,10 +10,13 @@ public class SpaceshipController : MonoBehaviour
     private List<GameObject> bulletPool;
     private GameObject beam;
 
+    private bool beamReady;
+
     // Use this for initialization
     void Start()
     {
         bulletPool = new List<GameObject>();
+        beamReady = true;
     }
 
     // Update is called once per frame
@@ -68,7 +71,7 @@ public class SpaceshipController : MonoBehaviour
 
     void FireBeam()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift)&&beamReady)
         {
             Vector3 position = new Vector3(transform.position.x, transform.position.y + 1.8f, transform.position.z);
             if (beam == null)
@@ -78,6 +81,14 @@ public class SpaceshipController : MonoBehaviour
                 beam.SetActive(true);
                 beam.transform.position = position;
             }
+            beamReady = false;
+            StartCoroutine(CoolDown());
         }   
+    }
+
+    IEnumerator CoolDown()
+    {
+        yield return new WaitForSeconds(3);
+        beamReady = true;
     }
 }   
