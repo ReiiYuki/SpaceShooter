@@ -5,8 +5,10 @@ using UnityEngine;
 public class SpaceshipController : MonoBehaviour
 {
     public GameObject bulletPrototype;
+    public GameObject beamPrototype;
 
     private List<GameObject> bulletPool;
+    private GameObject beam;
 
     // Use this for initialization
     void Start()
@@ -19,6 +21,7 @@ public class SpaceshipController : MonoBehaviour
     {
         SpaceShipControl();
         Fire();
+        FireBeam();
     }
 
     void SpaceShipControl()
@@ -61,5 +64,20 @@ public class SpaceshipController : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         gameObject.SetActive(false);
+    }
+
+    void FireBeam()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Vector3 position = new Vector3(transform.position.x, transform.position.y + 1.8f, transform.position.z);
+            if (beam == null)
+                beam = Instantiate(beamPrototype, position, Quaternion.identity).GetComponent<BulletMovement>().SetDirection(1);
+            else
+            {
+                beam.SetActive(true);
+                beam.transform.position = position;
+            }
+        }   
     }
 }   
