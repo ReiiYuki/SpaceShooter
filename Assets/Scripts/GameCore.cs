@@ -141,6 +141,7 @@ public class GameCore : MonoBehaviour {
                           yourRank = count;
                       count--;
                   }
+                  PlayerPrefs.SetInt("highscore",heightScore);
                   string rank = yourRank == 0 ? "Out of Rank" : (yourRank + "");
                   firebaseResult = "\nRank : " + rank + "\nHeighest Score in Server : " + heightScore;
               }
